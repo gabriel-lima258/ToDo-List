@@ -1,5 +1,5 @@
 import { PlusCircle } from 'phosphor-react'
-import { useState, FormEvent, ChangeEvent} from 'react'
+import { useState, ChangeEvent} from 'react'
 
 import styles from './Search.module.css'
 

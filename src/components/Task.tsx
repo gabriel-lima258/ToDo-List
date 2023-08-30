@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { useState, FormEvent, ChangeEvent } from 'react'
+import { useState } from 'react'
 
 import { EmptyBox } from './EmptyBox'
 import { ListTask } from './ListTask'
@@ -11,12 +11,12 @@ const tasksList = [
     {
       id: uuidv4(),
       content: "Terminar o projeto React",
-      isSelected: true
+      isSelected: false
     },
     {
       id: uuidv4(),
       content: "Contar os dias pro aniversário da leticia",
-      isSelected: false
+      isSelected: true
     },
   ]
 
@@ -40,6 +40,17 @@ export function Task() {
         })
 
         setTasks(taskWithoutDeletedOne)
+        countSelectedTasks();
+    }
+
+    const taskLength = tasks.length;
+
+    function countSelectedTasks() {
+        const selectedCount = tasks.reduce((taskDoneCount, taskCurrent) => {
+            return taskCurrent.isSelected === true ?  taskDoneCount + 1 : taskDoneCount;
+        }, 0)
+
+        return selectedCount;
     }
 
     return(
@@ -50,12 +61,17 @@ export function Task() {
             />
                  
             <header>
-                <p>Tarefas criadas <span>0</span></p>
-                <p>Concluidas <span>2 de 5</span></p>
+                <p>Tarefas criadas <span>{taskLength}</span></p>
+                <p>Concluidas <span>{countSelectedTasks()} de {taskLength}</span></p>
             </header>
 
             <div className={styles.content}>
-             
+            {
+                taskLength === 0 
+                ?
+                    <EmptyBox/>
+                :
+                <>
                 {
                     tasks.map(item => {
                         return(
@@ -69,7 +85,8 @@ export function Task() {
                         )
                     })
                 }
-             
+                </>
+            }
             </div>
         </div>
     )

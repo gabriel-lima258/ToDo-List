@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, ChangeEvent } from 'react'
 
 import styles from './ListTask.module.css'
 
@@ -13,34 +13,43 @@ interface ListTaskProps {
 
 export function ListTask({isChecked, keyTask, content, onDeleteTask}: ListTaskProps) {
 
-    const [taskCkeck, setTaskCkeck] = useState(false)
+    const [taskCkeck, setTaskCkeck] = useState(isChecked)
 
     function handleDeleteTask() {
         onDeleteTask(keyTask)
     }
 
-    function handleMessageErrorDelete() {
-       alert("Você não pode excluir uma tarefa não completa!");
+    function handleDeleteCondicional() {
+       if (taskCkeck === true) {
+        return handleDeleteTask();
+       } else {
+        return alert("Você não pode excluir uma tarefa não completa!");
+       }
     }
 
+    function handleChangeCheck(e: ChangeEvent<HTMLInputElement>) {
+        setTaskCkeck(e.target.checked);
+    }
 
     return(
         <div className={styles.content}>
             <div className={styles.checklist}>
                 <input 
                 type="checkbox" 
-                id='checkbox' 
+                id={keyTask} 
                 title='marcar task'
-
+                checked={taskCkeck}
+                onChange={handleChangeCheck}
                 />
-                <label htmlFor="checkbox"></label>
+                <label htmlFor={keyTask}></label>
             </div>
 
-            <p className={isChecked ? styles.active : styles.disabled}>{content}</p>
+            <p className={taskCkeck ? styles.active : styles.disabled}>{content}</p>
          
-            <button title='deletar task' onClick={isChecked ? handleDeleteTask : handleMessageErrorDelete}>
+            <button title='deletar task' onClick={handleDeleteCondicional}>
                 <Trash size={20}/>
             </button>
+
         </div>
     )
 }
