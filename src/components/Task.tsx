@@ -47,10 +47,23 @@ export function Task() {
 
     function countSelectedTasks() {
         const selectedCount = tasks.reduce((taskDoneCount, taskCurrent) => {
-            return taskCurrent.isSelected === true ?  taskDoneCount + 1 : taskDoneCount;
+            return taskCurrent.isSelected ?  taskDoneCount + 1 : taskDoneCount;
         }, 0)
 
         return selectedCount;
+    }
+
+    function taskChange(id: string, event: boolean) {
+        const taskCompleted = tasks.map((task) => 
+            task.id == id 
+            ? {
+                ...task,
+                isSelected: event,
+            }
+            : task
+        );
+
+        setTasks(taskCompleted)
     }
 
     return(
@@ -77,10 +90,11 @@ export function Task() {
                         return(
                             <ListTask
                             key={item.id}
+                            id={item.id}
                             content={item.content}
-                            keyTask={item.id}
                             isChecked={item.isSelected}
                             onDeleteTask={handleDeleteTask}
+                            onTaskChange={taskChange}
                             /> 
                         )
                     })

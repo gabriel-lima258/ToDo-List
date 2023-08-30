@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react'
+import { ChangeEvent } from 'react'
 
 import styles from './ListTask.module.css'
 
@@ -6,21 +6,20 @@ import { Trash } from 'phosphor-react'
 
 interface ListTaskProps {
     isChecked: boolean;
-    keyTask: string;
+    id: string;
     content: string;
     onDeleteTask: (task: string) => void;
+    onTaskChange: (id: string, event:boolean) => void;
 }
 
-export function ListTask({isChecked, keyTask, content, onDeleteTask}: ListTaskProps) {
-
-    const [taskCkeck, setTaskCkeck] = useState(isChecked)
+export function ListTask({isChecked, id, content, onDeleteTask, onTaskChange}: ListTaskProps) {
 
     function handleDeleteTask() {
-        onDeleteTask(keyTask)
+        onDeleteTask(id)
     }
 
     function handleDeleteCondicional() {
-       if (taskCkeck === true) {
+       if (isChecked === true) {
         return handleDeleteTask();
        } else {
         return alert("Você não pode excluir uma tarefa não completa!");
@@ -28,7 +27,7 @@ export function ListTask({isChecked, keyTask, content, onDeleteTask}: ListTaskPr
     }
 
     function handleChangeCheck(e: ChangeEvent<HTMLInputElement>) {
-        setTaskCkeck(e.target.checked);
+        onTaskChange(id, e.target.checked)
     }
 
     return(
@@ -36,15 +35,15 @@ export function ListTask({isChecked, keyTask, content, onDeleteTask}: ListTaskPr
             <div className={styles.checklist}>
                 <input 
                 type="checkbox" 
-                id={keyTask} 
+                id={id} 
                 title='marcar task'
-                checked={taskCkeck}
+                checked={isChecked}
                 onChange={handleChangeCheck}
                 />
-                <label htmlFor={keyTask}></label>
+                <label htmlFor={id}></label>
             </div>
 
-            <p className={taskCkeck ? styles.active : styles.disabled}>{content}</p>
+            <p className={isChecked ? styles.active : styles.disabled}>{content}</p>
          
             <button title='deletar task' onClick={handleDeleteCondicional}>
                 <Trash size={20}/>
