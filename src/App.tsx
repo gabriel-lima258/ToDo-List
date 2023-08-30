@@ -6,6 +6,7 @@ import styles from './App.module.css'
 
 import './global.css'
 
+
 function App() {
 
   return (
@@ -13,10 +14,7 @@ function App() {
       <Header/>
 
       <div className={styles.wrapper}>
-          <Search/>
-
           <Task/>
-
       </div>
     </>
   )

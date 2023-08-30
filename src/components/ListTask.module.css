@@ -82,7 +82,13 @@
     color: var(--danger);  
 }
 
-.content p {
+.active {
+    color: var(--gray-300);
+    font-size: 1.4rem;
+    text-decoration: line-through;
+}
+
+.disabled {
     color: var(--gray-100);
     font-size: 1.4rem;
 }

@@ -1,8 +1,9 @@
 .taskBox {
-    margin-top: 6.4rem;
+    margin-top: .4rem;
 }
 
 header {
+    margin-top: 6.4rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
